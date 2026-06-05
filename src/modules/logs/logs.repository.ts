@@ -4,7 +4,7 @@ export type LogsQuery = {
   from?: string;
   to?: string;
 
-  level?: "info" | "warn" | "error";
+  level?: "debug" | "info" | "warn" | "error";
   event?: string;
   service?: string;
 
@@ -13,6 +13,11 @@ export type LogsQuery = {
 
   entity?: string;
   entityId?: string;
+
+  // Fase 3: filtros exactos http.* y módulo (prefijo de event)
+  method?: string;
+  statusCode?: number;
+  module?: string;
 
   q?: string;
 
@@ -27,7 +32,7 @@ export type LogsStatsQuery = {
   from?: string;
   to?: string;
 
-  level?: "info" | "warn" | "error";
+  level?: "debug" | "info" | "warn" | "error";
   event?: string;
   service?: string;
 
@@ -36,6 +41,11 @@ export type LogsStatsQuery = {
 
   entity?: string;
   entityId?: string;
+
+  // Fase 3: filtros exactos http.* y módulo (prefijo de event)
+  method?: string;
+  statusCode?: number;
+  module?: string;
 
   q?: string;
 

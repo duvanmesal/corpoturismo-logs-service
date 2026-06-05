@@ -1,8 +1,9 @@
-import type { Collection, Db, Filter, WithId } from "mongodb";
+import type { Collection, Db, WithId } from "mongodb";
 import { ObjectId } from "mongodb";
 import type { CreateLogInput, LogDocument } from "./logs.types";
 import type { LogsQuery, LogsRepository } from "./logs.repository";
 import type { LogsStatsQuery, LogsStatsResult } from "./logs.repository";
+import { buildLogsFilter } from "./logs.filter";
 
 export class MongoLogsRepository implements LogsRepository {
   private col: Collection<LogDocument>;
@@ -37,30 +38,7 @@ export class MongoLogsRepository implements LogsRepository {
   }
 
   async findMany(query: LogsQuery): Promise<{ items: WithId<LogDocument>[]; total: number }> {
-    const filter: Filter<LogDocument> = {};
-
-    // rango fechas
-    if (query.from || query.to) {
-      filter.ts = {};
-      if (query.from) (filter.ts as any).$gte = new Date(query.from);
-      if (query.to) (filter.ts as any).$lte = new Date(query.to);
-    }
-
-    if (query.level) filter.level = query.level as any;
-    if (query.event) filter.event = query.event;
-    if (query.service) filter.service = query.service;
-
-    if (query.requestId) filter.requestId = query.requestId;
-    if (query.actorUserId) (filter as any)["actor.userId"] = query.actorUserId;
-
-    if (query.entity) (filter as any)["target.entity"] = query.entity;
-    if (query.entityId) (filter as any)["target.id"] = query.entityId;
-
-    // Full-text search (usa índice text)
-    // Nota: si usas $text, Mongo permite combinarlo con otros filtros.
-    if (query.q) {
-      (filter as any).$text = { $search: query.q };
-    }
+    const filter = buildLogsFilter(query);
 
     const skip = (query.page - 1) * query.pageSize;
     const limit = query.pageSize;
@@ -77,27 +55,8 @@ export class MongoLogsRepository implements LogsRepository {
   }
 
   async stats(query: LogsStatsQuery): Promise<LogsStatsResult> {
-    const match: any = {};
-
-    // rango ts
-    if (query.from || query.to) {
-      match.ts = {};
-      if (query.from) match.ts.$gte = new Date(query.from);
-      if (query.to) match.ts.$lte = new Date(query.to);
-    }
-
-    if (query.level) match.level = query.level;
-    if (query.event) match.event = query.event;
-    if (query.service) match.service = query.service;
-
-    if (query.requestId) match.requestId = query.requestId;
-    if (query.actorUserId) match["actor.userId"] = query.actorUserId;
-
-    if (query.entity) match["target.entity"] = query.entity;
-    if (query.entityId) match["target.id"] = query.entityId;
-
-    // $text (full-text)
-    if (query.q) match.$text = { $search: query.q };
+    // El match de la agregación es el mismo filtro de lectura.
+    const match = buildLogsFilter(query) as Record<string, unknown>;
 
     const logsCol = this.col;
 

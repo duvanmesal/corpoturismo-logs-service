@@ -15,6 +15,9 @@ export async function ensureMongoIndexes(db: Db): Promise<void> {
   await logs.createIndex({ requestId: 1, ts: -1 });
   await logs.createIndex({ "actor.userId": 1, ts: -1 });
   await logs.createIndex({ "target.entity": 1, "target.id": 1, ts: -1 });
+  // Fase 3: filtros exactos por http.*
+  await logs.createIndex({ "http.status": 1, ts: -1 });
+  await logs.createIndex({ "http.method": 1, ts: -1 });
   // (opcional) text index para q full-text
   await logs.createIndex({ message: "text", "meta": "text" });
 

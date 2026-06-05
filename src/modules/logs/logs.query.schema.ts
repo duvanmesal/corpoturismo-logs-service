@@ -18,6 +18,11 @@ export const LogsQuerySchema = z.object({
   entity: z.string().min(1).max(80).optional(),
   entityId: z.string().min(1).max(120).optional(),
 
+  // Fase 3: filtros exactos http.* y módulo (prefijo de event)
+  method: z.string().min(1).max(16).optional(),
+  statusCode: z.coerce.number().int().min(100).max(599).optional(),
+  module: z.string().min(1).max(80).optional(),
+
   q: z.string().min(1).max(200).optional(),
 
   page: z.coerce.number().int().min(1).default(1),
