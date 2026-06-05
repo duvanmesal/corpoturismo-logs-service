@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { LogLevelSchema } from "@/modules/logs/logs.schema";
+import { LogLevelSchema } from "./logs.schema";
 
 const SortFieldSchema = z.enum(["ts"]);
 const OrderSchema = z.enum(["asc", "desc"]);

@@ -2,14 +2,10 @@ import "dotenv/config";
 import { z } from "zod";
 
 const EnvSchema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  PORT: z.coerce.number().int().min(1).max(65535).default(4010),
+  NODE_ENV: z.enum(["development", "test", "production"]),
 
   MONGO_URL: z.string().min(1),
-  MONGO_DB: z.string().min(1).default("corpoturismo_db_logs"),
-
-  LOG_RETENTION_DAYS: z.coerce.number().int().min(1).max(3650).default(30),
-  MAIL_RETENTION_DAYS: z.coerce.number().int().min(1).max(3650).default(90),
+  MONGO_DB: z.string().min(1),
 
   INGEST_API_KEY: z.string().min(16),
   READ_API_KEY: z.string().min(16),
@@ -19,4 +15,25 @@ const EnvSchema = z.object({
 
 export type AppEnv = z.infer<typeof EnvSchema>;
 
-export const env: AppEnv = EnvSchema.parse(process.env);
+const rawEnv = {
+  NODE_ENV: process.env.NODE_ENV,
+  MONGO_URL: process.env.MONGO_URL,
+  MONGO_DB: process.env.MONGO_DB,
+  INGEST_API_KEY: process.env.INGEST_API_KEY,
+  READ_API_KEY: process.env.READ_API_KEY,
+  CORS_ORIGIN: process.env.CORS_ORIGIN
+};
+
+const parsedEnv = EnvSchema.safeParse(rawEnv);
+
+if (!parsedEnv.success) {
+  const details = parsedEnv.error.issues
+    .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+    .join("; ");
+
+  throw new Error(
+    `Missing or invalid environment variables: ${details}. Required: NODE_ENV, MONGO_URL, MONGO_DB, INGEST_API_KEY, READ_API_KEY, CORS_ORIGIN.`
+  );
+}
+
+export const env: AppEnv = parsedEnv.data;

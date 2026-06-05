@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
-import { logger } from "@/libs/logger/logger";
+import { logger } from "../libs/logger/logger";
 
 export function errorHandler(err: any, _req: Request, res: Response, _next: NextFunction) {
   // Zod validation => 400

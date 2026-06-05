@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { LogLevelSchema } from "@/modules/logs/logs.schema";
+import { LogLevelSchema } from "./logs.schema";
 
 export const LogsStatsQuerySchema = z.object({
   from: z.string().datetime().optional(),

@@ -1,4 +1,4 @@
-import type { CreateLogInput, LogDocument } from "@/modules/logs/logs.types";
+import type { CreateLogInput, LogDocument } from "./logs.types";
 
 export type LogsQuery = {
   from?: string;

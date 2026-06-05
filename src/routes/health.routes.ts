@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getMongoDb } from "@/db/mongo.client";
-import { mongoHealth } from "@/db/mongo.health";
+import { getMongoDb } from "../db/mongo.client";
+import { mongoHealth } from "../db/mongo.health";
 
 export const healthRouter = Router();
 

@@ -1,7 +1,7 @@
-import type { LogsRepository, LogsQuery } from "@/modules/logs/logs.repository";
-import type { CreateLogInput } from "@/modules/logs/logs.types";
-import { sanitizeLogPayload } from "@/libs/logger/sanitize";
-import type { LogsStatsQuery } from "@/modules/logs/logs.repository";
+import type { LogsRepository, LogsQuery } from "./logs.repository";
+import type { CreateLogInput } from "./logs.types";
+import { sanitizeLogPayload } from "../../libs/logger/sanitize";
+import type { LogsStatsQuery } from "./logs.repository";
 
 export class LogsService {
   constructor(private repo: LogsRepository) {}

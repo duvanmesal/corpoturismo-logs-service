@@ -1,13 +1,15 @@
 import { Db } from "mongodb";
-import { env } from "@/config/env";
-import { logger } from "@/libs/logger/logger";
+import { logger } from "../libs/logger/logger";
+
+const LOG_RETENTION_DAYS = 30;
+const MAIL_RETENTION_DAYS = 90;
 
 export async function ensureMongoIndexes(db: Db): Promise<void> {
   const logs = db.collection("logs");
   const mails = db.collection("mails");
 
   // TTL en logs (por campo ts)
-  await logs.createIndex({ ts: 1 }, { expireAfterSeconds: env.LOG_RETENTION_DAYS * 86400 });
+  await logs.createIndex({ ts: 1 }, { expireAfterSeconds: LOG_RETENTION_DAYS * 86400 });
   await logs.createIndex({ level: 1, ts: -1 });
   await logs.createIndex({ event: 1, ts: -1 });
   await logs.createIndex({ requestId: 1, ts: -1 });
@@ -17,7 +19,7 @@ export async function ensureMongoIndexes(db: Db): Promise<void> {
   await logs.createIndex({ message: "text", "meta": "text" });
 
   // TTL en mails (por campo ts)
-  await mails.createIndex({ ts: 1 }, { expireAfterSeconds: env.MAIL_RETENTION_DAYS * 86400 });
+  await mails.createIndex({ ts: 1 }, { expireAfterSeconds: MAIL_RETENTION_DAYS * 86400 });
   await mails.createIndex({ status: 1, ts: -1 });
   await mails.createIndex({ provider: 1, ts: -1 });
   await mails.createIndex({ "to.email": 1, ts: -1 });

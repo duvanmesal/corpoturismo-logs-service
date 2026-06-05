@@ -1,6 +1,6 @@
 import { MongoClient, Db } from "mongodb";
-import { env } from "@/config/env";
-import { logger } from "@/libs/logger/logger";
+import { env } from "../config/env";
+import { logger } from "../libs/logger/logger";
 
 let client: MongoClient | null = null;
 let db: Db | null = null;

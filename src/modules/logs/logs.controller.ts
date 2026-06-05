@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { CreateLogBatchSchema, CreateLogSchema } from "@/modules/logs/logs.schema";
-import { LogsQuerySchema } from "@/modules/logs/logs.query.schema";
-import type { LogsService } from "@/modules/logs/logs.service";
-import { LogsStatsQuerySchema } from "@/modules/logs/logs.stats.schema";
+import { CreateLogBatchSchema, CreateLogSchema } from "./logs.schema";
+import { LogsQuerySchema } from "./logs.query.schema";
+import type { LogsService } from "./logs.service";
+import { LogsStatsQuerySchema } from "./logs.stats.schema";
 
 export class LogsController {
   constructor(private service: LogsService) {}

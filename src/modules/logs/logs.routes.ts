@@ -1,11 +1,11 @@
 import { Router } from "express";
 import type { Db } from "mongodb";
-import { requireIngestApiKey } from "@/middlewares/authApiKey";
-import { requireReadApiKey } from "@/middlewares/readApiKey";
-import { MongoLogsRepository } from "@/modules/logs/logs.repository.mongo";
-import { LogsService } from "@/modules/logs/logs.service";
-import { LogsController } from "@/modules/logs/logs.controller";
-import { asyncHandler } from "@/shared/asyncHandler";
+import { requireIngestApiKey } from "../../middlewares/authApiKey";
+import { requireReadApiKey } from "../../middlewares/readApiKey";
+import { MongoLogsRepository } from "./logs.repository.mongo";
+import { LogsService } from "./logs.service";
+import { LogsController } from "./logs.controller";
+import { asyncHandler } from "../../shared/asyncHandler";
 
 export function buildLogsRouter(db: Db): Router {
   const router = Router();

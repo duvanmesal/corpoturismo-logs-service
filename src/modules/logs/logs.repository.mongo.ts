@@ -1,8 +1,8 @@
 import type { Collection, Db, Filter, WithId } from "mongodb";
 import { ObjectId } from "mongodb";
-import type { CreateLogInput, LogDocument } from "@/modules/logs/logs.types";
-import type { LogsQuery, LogsRepository } from "@/modules/logs/logs.repository";
-import type { LogsStatsQuery, LogsStatsResult } from "@/modules/logs/logs.repository";
+import type { CreateLogInput, LogDocument } from "./logs.types";
+import type { LogsQuery, LogsRepository } from "./logs.repository";
+import type { LogsStatsQuery, LogsStatsResult } from "./logs.repository";
 
 export class MongoLogsRepository implements LogsRepository {
   private col: Collection<LogDocument>;

@@ -1,4 +1,4 @@
-import { SENSITIVE_KEYS } from "@/libs/logger/redaction.rules";
+import { SENSITIVE_KEYS } from "./redaction.rules";
 
 const REDACTED = "[REDACTED]";
 

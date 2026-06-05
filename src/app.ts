@@ -4,11 +4,11 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import type { Db } from "mongodb";
-import { env } from "@/config/env";
-import { requestContext } from "@/middlewares/requestContext";
-import { errorHandler } from "@/middlewares/errorHandler";
-import { healthRouter } from "@/routes/health.routes";
-import { buildLogsRouter } from "@/modules/logs/logs.routes";
+import { env } from "./config/env";
+import { requestContext } from "./middlewares/requestContext";
+import { errorHandler } from "./middlewares/errorHandler";
+import { healthRouter } from "./routes/health.routes";
+import { buildLogsRouter } from "./modules/logs/logs.routes";
 
 export function buildApp(db: Db) {
   const app = express();
