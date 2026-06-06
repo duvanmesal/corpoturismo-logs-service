@@ -21,6 +21,8 @@ export function buildLogsRouter(db: Db): Router {
   // Query (read)
   router.get("/", requireReadApiKey, asyncHandler(controller.list));
   router.get("/stats", requireReadApiKey, asyncHandler(controller.stats));
+  router.get("/facets", requireReadApiKey, asyncHandler(controller.facets));
+  router.get("/timeline", requireReadApiKey, asyncHandler(controller.timeline));
   router.get("/:id", requireReadApiKey, asyncHandler(controller.getById));
 
   return router;

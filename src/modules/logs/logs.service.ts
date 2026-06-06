@@ -2,6 +2,8 @@ import type { LogsRepository, LogsQuery } from "./logs.repository";
 import type { CreateLogInput } from "./logs.types";
 import { sanitizeLogPayload } from "../../libs/logger/sanitize";
 import type { LogsStatsQuery } from "./logs.repository";
+import type { LogsFacetsQuery } from "./logs.facets.schema";
+import type { LogsTimelineQuery } from "./logs.timeline.schema";
 
 export class LogsService {
   constructor(private repo: LogsRepository) {}
@@ -35,5 +37,13 @@ export class LogsService {
 
   async stats(query: LogsStatsQuery) {
     return this.repo.stats(query);
+  }
+
+  async facets(query: LogsFacetsQuery) {
+    return this.repo.facets(query);
+  }
+
+  async timeline(query: LogsTimelineQuery) {
+    return this.repo.timeline(query);
   }
 }

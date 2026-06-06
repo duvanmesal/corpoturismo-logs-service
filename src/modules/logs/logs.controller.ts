@@ -3,6 +3,8 @@ import { CreateLogBatchSchema, CreateLogSchema } from "./logs.schema";
 import { LogsQuerySchema } from "./logs.query.schema";
 import type { LogsService } from "./logs.service";
 import { LogsStatsQuerySchema } from "./logs.stats.schema";
+import { LogsFacetsQuerySchema } from "./logs.facets.schema";
+import { LogsTimelineQuerySchema } from "./logs.timeline.schema";
 
 export class LogsController {
   constructor(private service: LogsService) {}
@@ -70,5 +72,17 @@ export class LogsController {
       meta: null,
       error: null
     });
+  };
+
+  facets = async (req: Request, res: Response) => {
+    const parsed = LogsFacetsQuerySchema.parse(req.query);
+    const result = await this.service.facets(parsed);
+    res.status(200).json({ data: result, meta: null, error: null });
+  };
+
+  timeline = async (req: Request, res: Response) => {
+    const parsed = LogsTimelineQuerySchema.parse(req.query);
+    const result = await this.service.timeline(parsed);
+    res.status(200).json({ data: result, meta: null, error: null });
   };
 }

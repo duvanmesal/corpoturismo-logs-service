@@ -9,6 +9,7 @@ import { requestContext } from "./middlewares/requestContext";
 import { errorHandler } from "./middlewares/errorHandler";
 import { healthRouter } from "./routes/health.routes";
 import { buildLogsRouter } from "./modules/logs/logs.routes";
+import { buildAlertRulesRouter } from "./modules/alerts/alert-rules.routes";
 
 export function buildApp(db: Db) {
   const app = express();
@@ -41,6 +42,7 @@ export function buildApp(db: Db) {
   app.use(healthRouter);
 
   app.use("/logs", buildLogsRouter(db));
+  app.use("/alerts", buildAlertRulesRouter(db));
 
   // 404
   app.use((_req, res) => {

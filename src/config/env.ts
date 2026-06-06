@@ -9,6 +9,7 @@ const EnvSchema = z.object({
 
   INGEST_API_KEY: z.string().min(16),
   READ_API_KEY: z.string().min(16),
+  ADMIN_API_KEY: z.string().min(16).optional(),
 
   CORS_ORIGIN: z.string().default("*")
 });
@@ -21,6 +22,7 @@ const rawEnv = {
   MONGO_DB: process.env.MONGO_DB,
   INGEST_API_KEY: process.env.INGEST_API_KEY,
   READ_API_KEY: process.env.READ_API_KEY,
+  ADMIN_API_KEY: process.env.ADMIN_API_KEY,
   CORS_ORIGIN: process.env.CORS_ORIGIN
 };
 

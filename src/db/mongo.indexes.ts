@@ -27,5 +27,10 @@ export async function ensureMongoIndexes(db: Db): Promise<void> {
   await mails.createIndex({ provider: 1, ts: -1 });
   await mails.createIndex({ "to.email": 1, ts: -1 });
 
-  logger.info("Mongo indexes ensured (logs, mails)");
+  const alertRules = db.collection("alert_rules");
+  await alertRules.createIndex({ enabled: 1 });
+  await alertRules.createIndex({ level: 1 });
+  await alertRules.createIndex({ createdAt: -1 });
+
+  logger.info("Mongo indexes ensured (logs, mails, alert_rules)");
 }
